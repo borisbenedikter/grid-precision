@@ -1,0 +1,3 @@
+/home/boris/Documenti/grid-precision/build/CMakeFiles/edit_cache.dir
+/home/boris/Documenti/grid-precision/build/CMakeFiles/rebuild_cache.dir
+/home/boris/Documenti/grid-precision/build/CMakeFiles/grid_precision.dir
