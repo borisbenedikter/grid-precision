@@ -16,13 +16,30 @@ vconv = sqrt(mu_d / Re_d);
 tconv = rconv / vconv;
 mu = 1.;
 
-% Initial conditions
-x0 = (Re_d + 700.) / rconv;
-y0 = 0.;
-z0 = 0.;
-vx0 = 0.;
-vy0 = sqrt(mu / x0);
-vz0 = 0.;
+% Initial conditions [non-dim]
+a_orb = (Re_d + 700.) / rconv;
+e_orb = 0.1;
+i_orb = deg2rad(45);
+gom = deg2rad(30);
+pom = deg2rad(30);
+nu = deg2rad(15);
+COE = [a_orb, e_orb, i_orb, gom, pom, nu];
+[rECI0, vECI0] = coe2rvECI(COE, mu);
+
+x0 = rECI0(1);
+y0 = rECI0(2);
+z0 = rECI0(3);
+vx0 = vECI0(1);
+vy0 = vECI0(2);
+vz0 = vECI0(3);
+
+% x0 = (Re_d + 700.) / rconv;
+% y0 = 0.;
+% z0 = 0.;
+% vx0 = 0.;
+% vy0 = sqrt(mu / x0);
+% vz0 = 0.;
+
 X0 = [x0, y0, z0, vx0, vy0, vz0]';
 
 % Time

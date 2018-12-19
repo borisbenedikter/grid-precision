@@ -6,17 +6,21 @@
 #include <iterator>
 // #include <vector>
 
+#define USE_TANH 0
+
 #include "odes.h"
 #include "import.h"
 #include "numerical_functions.h"
 #include <boost/math/interpolators/cubic_b_spline.hpp>
+#if USE_TANH == 1
 #include <boost/math/quadrature/tanh_sinh.hpp>
+using boost::math::quadrature::tanh_sinh;
+#else
 #include <boost/math/quadrature/gauss_kronrod.hpp>
-
+using namespace boost::math::quadrature;
+#endif
 #include <fstream>
 
-using boost::math::quadrature::tanh_sinh;
-using namespace boost::math::quadrature;
 
 int main(int argc, char const *argv[])
 {
@@ -158,11 +162,14 @@ int main(int argc, char const *argv[])
                 double eps = dx_spline - dx[k];
                 return fabs(eps);
             };
-            // Numerical quadrature
-            double eta_jk = gauss_kronrod<double, 15>::integrate(eps_tanh, t[j], t[j + 1], 15, tol, &err);
-            //    tanh_sinh<double> tanh_integrator;
+// Numerical quadrature
+#if USE_TANH == 1
+            tanh_sinh<double> tanh_integrator;
             //    double eta_jk = tanh_integrator.integrate(eps_tanh, t[j], t[j + 1]);
-            //    double eta_jk = tanh_integrator.integrate(eps_tanh, t[j], t[j + 1], tol, &err);
+            double eta_jk = tanh_integrator.integrate(eps_tanh, t[j], t[j + 1], tol, &err);
+#else
+            double eta_jk = gauss_kronrod<double, 15>::integrate(eps_tanh, t[j], t[j + 1], 15, tol, &err);
+#endif
             ost << std::setw(width) << std::scientific << std::setprecision(prec) << eta_jk;
         }
         ost << std::endl;
