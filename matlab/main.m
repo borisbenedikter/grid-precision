@@ -27,14 +27,16 @@ X0 = [x0, y0, z0, vx0, vy0, vz0]';
 
 % Time
 t0 = 0.;
-t1 = 800. / tconv;
+t1 = 8000. / tconv;
 tspan = [t0, t1];
 
 % Ode fun
 ode_fun = @(t, y) ode_kepler(t, y, mu);
 
 % Options
-options = odeset('AbsTol', 1e-9, 'RelTol', 1e-9);
+AT = 1e-3;
+RT = 1e-3;
+options = odeset('AbsTol', AT, 'RelTol', RT);
 
 % Numerical integration
 [t, MAT] = ode45(ode_fun, tspan, X0, options);

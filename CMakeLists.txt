@@ -12,7 +12,7 @@ find_package(Boost REQUIRED)
 INCLUDE_DIRECTORIES("${Boost_INCLUDE_DIRS}" include())
 
 # Compiler options
-set (DEBUG ON)
+set (DEBUG OFF)
 if(DEBUG)
     add_compile_options(-Wall -O0 -g -std=c++17)
 else()
